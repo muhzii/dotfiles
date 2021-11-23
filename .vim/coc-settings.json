@@ -1,0 +1,68 @@
+{
+    "suggest.noselect": false,
+    "diagnostic.checkCurrentLine": true,
+    "diagnostic.refreshOnInsertMode": true,
+    "coc.preferences.formatOnSaveFiletypes": [
+        "javascript",
+        "html",
+        "json",
+        "css",
+        "scss",
+        "go",
+        "python",
+        "c",
+        "h"
+    ],
+    "coc.preferences.formatOnType": true,
+    "go.goplsOptions": {
+        "completeUnimported": true
+    },
+    "diagnostic.displayByAle": true,
+    "languageserver": {
+        "ccls": {
+            "trace.server": "verbose",
+            "command": "ccls",
+            "filetypes": [
+                "h",
+                "c",
+                "cc",
+                "cpp",
+                "c++",
+                "objc",
+                "objcpp"
+            ],
+            "rootPatterns": [
+                ".ccls",
+                "compile_commands.json",
+                ".git/",
+                ".hg/"
+            ],
+            "initializationOptions": {
+                "clang": {
+                    "excludeArgs": [
+                        "-mno-fp-ret-in-387",
+                        "-mpreferred-stack-boundary=3",
+                        "-mskip-rax-setup",
+                        "-mindirect-branch=thunk-extern",
+                        "-mindirect-branch-register",
+                        "-fno-allow-store-data-races",
+                        "-fzero-call-used-regs=used-gpr",
+                        "-fconserve-stack",
+                        "-fplugin-arg-structleak_plugin-byref-all",
+                        "-falign-jumps=1",
+                        "-falign-loops=1",
+                        "-mrecord-mcount",
+                        "-fplugin=./scripts/gcc-plugins/structleak_plugin.so",
+                        "-DSTRUCTLEAK_PLUGIN"
+                    ]
+                },
+                "client": {
+                    "snippetsSupport": true
+                },
+                "cache": {
+                    "directory": ".ccls-cache"
+                }
+            }
+        }
+    }
+}
