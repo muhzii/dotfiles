@@ -10,18 +10,21 @@
         "scss",
         "go",
         "python",
-        "c",
-        "h"
+        "c"
     ],
     "coc.preferences.formatOnType": true,
     "go.goplsOptions": {
         "completeUnimported": true
     },
     "diagnostic.displayByAle": true,
+    "python.formatting.provider": "autopep8",
     "languageserver": {
         "ccls": {
             "trace.server": "verbose",
             "command": "ccls",
+            "args": [
+                "-v=2"
+            ],
             "filetypes": [
                 "h",
                 "c",

@@ -28,8 +28,8 @@ set incsearch ignorecase smartcase hlsearch  " Incremental search
 set emoji
 set cmdheight=2
 set updatetime=25
-set foldmethod=manual
-set foldlevel=2
+set foldmethod=syntax
+set foldlevel=5
 set ttimeout ttimeoutlen=10  " Enforce timeout for keycodes sent by the terminal.
 "set whichwrap+=<,>,h,l,[,]  " Allow movements keys to move between lines.
 set splitbelow splitright  " More natural feel when opening vim splits.
@@ -103,12 +103,18 @@ set tags^=.git/tags
 "
 " ALE configurations.
 "
-let g:ale_enabled=1
+let g:ale_enabled = 1
 let g:ale_disable_lsp = 1
 let g:ale_completion_enabled = 0
 let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '⚠'
 let g:ale_fix_on_save = 1
+let g:ale_linters_explicit = 1
+let g:ale_javascript_eslint_executable = 'eslint_d --cache'
+"let g:ale_floating_preview = 1
+"let g:ale_cursor_detail = 1
+"let g:ale_close_preview_on_insert = 1
+"let g:ale_floating_window_border = []
 
 let g:ale_linters = {
    \'typescript': ['eslint'],
