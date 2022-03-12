@@ -10,7 +10,8 @@
         "scss",
         "go",
         "python",
-        "c"
+        "c",
+        "cpp"
     ],
     "coc.preferences.formatOnType": true,
     "go.goplsOptions": {
