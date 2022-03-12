@@ -64,7 +64,7 @@
                     "snippetsSupport": true
                 },
                 "cache": {
-                    "directory": ".ccls-cache"
+                    "directory": "/tmp/ccls"
                 }
             }
         }
