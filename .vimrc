@@ -225,6 +225,7 @@ Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
 
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'muhzii/better-vim-tmux-resizer'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
