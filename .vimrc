@@ -9,7 +9,6 @@ let mapleader = " "
 " Editor settings.
 "
 set nu
-"set spell  " Enable spell checking.
 set relativenumber
 set backspace=2   " Backspace deletes like most programs in insert mode
 set nobackup
@@ -31,7 +30,6 @@ set updatetime=25
 set foldmethod=syntax
 set foldlevel=5
 set ttimeout ttimeoutlen=10  " Enforce timeout for keycodes sent by the terminal.
-"set whichwrap+=<,>,h,l,[,]  " Allow movements keys to move between lines.
 set splitbelow splitright  " More natural feel when opening vim splits.
 set clipboard=unnamedplus
 set termguicolors
@@ -52,8 +50,6 @@ let &t_Ce = "\e[4:0m"
 let &t_SI = "\<Esc>[5 q"
 let &t_SR = "\<Esc>[3 q"
 let &t_EI = "\<Esc>[ q"
-
-let &t_8u = "\<Esc>[58;2;%lu;%lu;%lum"
 
 " Workaround for xterm-kitty, see: https://github.com/kovidgoyal/kitty/issues/108
 " vim hardcodes background color erase even if the terminfo file does
@@ -111,10 +107,6 @@ let g:ale_sign_warning = '⚠'
 let g:ale_fix_on_save = 1
 let g:ale_linters_explicit = 1
 let g:ale_javascript_eslint_executable = 'eslint_d --cache'
-"let g:ale_floating_preview = 1
-"let g:ale_cursor_detail = 1
-"let g:ale_close_preview_on_insert = 1
-"let g:ale_floating_window_border = []
 
 let g:ale_linters = {
    \'typescript': ['eslint'],
@@ -127,8 +119,6 @@ let g:ale_fixers = {
    \'javascript': ['eslint'],
    \'typescript': ['eslint'],
    \}
-
-let g:ale_go_bingo_executable = 'gopls'
 
 "
 " git-gutter Configurations.
