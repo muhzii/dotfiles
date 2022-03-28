@@ -41,6 +41,10 @@ autocmd FocusGained,BufEnter * checktime
 " Show the whild menu.
 set wildmenu
 
+" Show matching brackets.
+set showmatch
+set mat=2
+
 "
 " Editor colors
 "
