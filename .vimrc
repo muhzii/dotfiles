@@ -59,10 +59,8 @@ let &t_EI = "\<Esc>[ q"
 " background color.
 let &t_ut=''
 
-" Highlight colors for errors, bad spelling, etc..
-highlight SpellBad ctermfg=red guifg=red ctermul=red cterm=undercurl
-highlight SpellCap ctermfg=red guifg=red ctermul=red cterm=undercurl
-highlight error ctermfg=red ctermbg=NONE cterm=undercurl ctermul=red
+" Highlight for bad spelling errors.
+autocmd ColorScheme * highlight SpellBad guisp=#fabd2f
 
 " Clear search highlights using F3.
 nnoremap <F3> :noh<CR>
