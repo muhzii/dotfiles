@@ -72,6 +72,12 @@ autocmd VimResized * :wincmd =
 nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
 nnoremap <leader>= :wincmd =<cr>
 
+" Move a line of text using alt+j/k
+nmap <M-j> mz:m+<cr>`z
+nmap <M-k> mz:m-2<cr>`z
+vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+
 "
 " Highlight trailing whitespaces.
 "
