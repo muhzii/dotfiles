@@ -126,11 +126,11 @@ let g:ale_javascript_eslint_executable = 'eslint_d --cache'
 let g:ale_linters = {
    \'typescript': ['eslint'],
    \'javascript': ['eslint'],
-   \'go': ['staticcheck', 'gofmt', 'golint', 'go vet', 'gopls'],
+   \'go': ['staticcheck', 'gofmt', 'golint', 'go vet'],
    \}
 
 let g:ale_fixers = {
-   \'go': ['goimports'],
+   \'go': ['goimports', 'gofmt'],
    \'javascript': ['eslint'],
    \'typescript': ['eslint'],
    \}
