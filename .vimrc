@@ -34,6 +34,10 @@ set splitbelow splitright  " More natural feel when opening vim splits.
 set clipboard=unnamedplus
 set termguicolors
 
+" Enable autoread for file changes.
+set autoread
+autocmd FocusGained,BufEnter * checktime
+
 "
 " Editor colors
 "
