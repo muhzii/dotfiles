@@ -38,6 +38,9 @@ set termguicolors
 set autoread
 autocmd FocusGained,BufEnter * checktime
 
+" Show the whild menu.
+set wildmenu
+
 "
 " Editor colors
 "
