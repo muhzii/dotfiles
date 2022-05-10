@@ -4,9 +4,9 @@
     "coc-go": ">=1.2.1",
     "coc-html": ">=1.6.1",
     "coc-json": ">=1.4.1",
-    "coc-pyright": ">=1.1.232",
+    "coc-pyright": ">=1.1.243",
     "coc-sh": ">=0.6.1",
-    "coc-snippets": ">=3.0.5",
-    "coc-tsserver": ">=1.9.15"
+    "coc-snippets": ">=3.0.9",
+    "coc-tsserver": ">=1.10.2"
   }
 }
