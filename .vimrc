@@ -92,10 +92,10 @@ vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 "
 " Highlight trailing whitespaces.
 "
-autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
 autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 autocmd BufWinLeave * call clearmatches()
 
 "
@@ -110,6 +110,10 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
 " Set tags for vim-fugitive
 set tags^=.git/tags
+
+let g:python_highlight_space_errors = 0
+let g:python_highlight_func_calls = 0
+let g:python_highlight_all = 1
 
 "
 " ALE configurations.
@@ -209,6 +213,8 @@ let g:UltiSnipsListSnippets="<c-tab>"  " List all snippets for current filetype
 " vim-plug section.
 "
 call plug#begin('~/.vim/plugged')
+
+Plug 'vim-python/python-syntax'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
