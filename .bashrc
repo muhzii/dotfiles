@@ -95,6 +95,13 @@ alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
 
+# git aliases
+alias gs='git status'
+alias gd='git diff'
+alias gr='git restore'
+alias ga='git add'
+alias gc='git commit'
+
 # Make kitty work correctly when remoting to another machine.
 alias ssh="kitty +kitten ssh"
 
