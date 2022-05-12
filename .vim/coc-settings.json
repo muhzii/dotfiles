@@ -20,6 +20,7 @@
     },
     "diagnostic.displayByAle": true,
     "python.formatting.provider": "autopep8",
+    "pyright.trace.server": "verbose",
     "languageserver": {
         "ccls": {
             "trace.server": "verbose",
