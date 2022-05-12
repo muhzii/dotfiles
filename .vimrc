@@ -111,9 +111,21 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 " Set tags for vim-fugitive
 set tags^=.git/tags
 
+"
+" Python-syntax configurations.
+"
 let g:python_highlight_space_errors = 0
 let g:python_highlight_func_calls = 0
 let g:python_highlight_all = 1
+
+"
+" Better-vim-tmux-resizer configurations.
+"
+let g:tmux_resizer_no_mappings = 1
+nnoremap <silent> <C-Left> :TmuxResizeLeft<CR>
+nnoremap <silent> <C-Down> :TmuxResizeDown<CR>
+nnoremap <silent> <C-Up> :TmuxResizeUp<CR>
+nnoremap <silent> <C-Right> :TmuxResizeRight<CR>
 
 "
 " ALE configurations.
@@ -239,7 +251,8 @@ Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
 
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'muhzii/better-vim-tmux-resizer'
+
+Plug 'RyanMillerC/better-vim-tmux-resizer'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
