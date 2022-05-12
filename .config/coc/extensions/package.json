@@ -7,6 +7,6 @@
     "coc-pyright": ">=1.1.243",
     "coc-sh": ">=0.6.1",
     "coc-snippets": ">=3.0.9",
-    "coc-tsserver": ">=1.10.2"
+    "coc-tsserver": ">=1.10.3"
   }
 }
