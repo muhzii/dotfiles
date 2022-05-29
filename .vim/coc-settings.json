@@ -22,6 +22,18 @@
     "python.formatting.provider": "autopep8",
     "pyright.trace.server": "verbose",
     "languageserver": {
+        "bash": {
+            "command": "bash-language-server",
+            "args": [
+                "start"
+            ],
+            "filetypes": [
+                "sh"
+            ],
+            "ignoredRootPaths": [
+                "~"
+            ]
+        },
         "ccls": {
             "trace.server": "verbose",
             "command": "ccls",
