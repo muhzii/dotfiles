@@ -102,9 +102,6 @@ alias gr='git restore'
 alias ga='git add'
 alias gc='git commit'
 
-# Make kitty work correctly when remoting to another machine.
-alias ssh="kitty +kitten ssh --kitten login_shell"
-
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
