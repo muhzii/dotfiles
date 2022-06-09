@@ -30,10 +30,17 @@ endef
 
 all: packages_install home_install vim_plug_intall
 
-# NOTE: Only for Arch-Linux for now.
-packages_install:
+packages_install: pacman_pkgs_install datefudge_install
+
+pacman_pkgs_install:
 	@echo "Installing pacman packages..."
 	sudo pacman -S - < ./pacman-packages
+
+datefudge_install:
+	@echo "Installing datefudge..."
+	@git clone https://github.com/vvidovic/datefudge.git
+	@cd datefudge && make && sudo make install
+	@rm -rf datefudge
 
 export caps_lock_esc_map_evscript
 export evscript_launcer
