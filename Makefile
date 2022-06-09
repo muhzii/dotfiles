@@ -58,6 +58,8 @@ home_install:
 	$(call replace-with-symlink,.config/kitty/kitty.conf)
 	@mkdir -p ~/.vim
 	$(call replace-with-symlink,.vim/coc-settings.json)
+	@mkdir -p ~/.vim/colors
+	@cp ./colors/* ~/.vim/colors
 
 vim_plug_install:
 	@echo "Installing Vim plugins.."
