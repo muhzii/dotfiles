@@ -70,6 +70,7 @@ home_install:
 
 vim_plug_install:
 	@echo "Installing Vim plugins.."
+	@cp -r ./.vim/plugin ~/.vim
 	@curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	@vim +PlugInstall +qa
