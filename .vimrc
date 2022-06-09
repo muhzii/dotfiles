@@ -229,6 +229,8 @@ let g:UltiSnipsListSnippets="<c-tab>"  " List all snippets for current filetype
 "
 call plug#begin('~/.vim/plugged')
 
+Plug 'tpope/vim-fugitive'
+
 Plug 'vim-python/python-syntax'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
