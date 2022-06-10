@@ -35,6 +35,8 @@ packages_install: pacman_pkgs_install datefudge_install
 pacman_pkgs_install:
 	@echo "Installing pacman packages..."
 	sudo pacman -S - < ./pacman-packages
+	@sudo systemctl enable at
+	@sudo systemctl start at
 
 datefudge_install:
 	@echo "Installing datefudge..."
