@@ -17,7 +17,7 @@ fn main() ~ evdevs, uinput {
 }
 endef
 
-define evscript_launcer
+define evscript_launcher
 #!/bin/sh
 
 evdev=$$1
@@ -43,15 +43,15 @@ datefudge_install:
 	@rm -rf datefudge
 
 export caps_lock_esc_map_evscript
-export evscript_launcer
+export evscript_launcher
 evscript_install:
 	@git clone https://github.com/myfreeweb/evscript
 	@cd evscript && cargo build --release
 	@cd evscript && sudo install -Ss -o root -m 4755 target/release/evscript /usr/local/bin/evscript
 	@echo "$$caps_lock_esc_map_evscript" > ~/.local/share/caps_lock_esc_map.dyon
-	@echo "$$evscript_launcer" > ~/.local/bin/evscript_launcer.sh
-	@chmod +x ~/.local/bin/evscript_launcer.sh
-	@echo 'ACTION=="add", KERNEL=="event*", RUN+="$(shell echo ~/.local/bin/evscript_launcer.sh) %k"' | \
+	@echo "$$evscript_launcher" > ~/.local/bin/evscript_launcher.sh
+	@chmod +x ~/.local/bin/evscript_launcher.sh
+	@echo 'ACTION=="add", KERNEL=="event*", RUN+="$(shell echo ~/.local/bin/evscript_launcher.sh) %k"' | \
 		sudo tee /etc/udev/rules.d/00-keyboard-caps-lock-map.rules
 	@rm -rf evscript
 
