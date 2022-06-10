@@ -2,7 +2,7 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-export PATH="$PATH:$(echo ~/.local/bin)"
+export PATH="$PATH:$(echo ~/.local/bin):$(echo ~/go/bin)"
 
 # If not running interactively, don't do anything
 case $- in
