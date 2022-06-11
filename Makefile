@@ -2,7 +2,7 @@ define replace-with-symlink
 	@rm -f ~/$1 && ln -s $(shell pwd)/$1 ~/$1
 endef
 
-define caps_lock_esc_map_evscript
+define evdev_script
 //! [events]
 //! keys = ['ESC']
 fn main() ~ evdevs, uinput {
@@ -17,7 +17,7 @@ fn main() ~ evdevs, uinput {
 }
 endef
 
-define evscript_launcher
+define evdev_script_launcher
 #!/bin/sh
 
 evdev=$$1
@@ -46,21 +46,21 @@ datefudge_install:
 	@cd datefudge && make && sudo make install
 	@rm -rf datefudge
 
-export caps_lock_esc_map_evscript
-export evscript_launcher
 rustup_install:
 	@echo "Installing rustup..."
 	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 	@rustup component add rls rust-analysis rust-src
 
+export evdev_script
+export evdev_script_launcher
 evscript_install:
-	@git clone https://github.com/myfreeweb/evscript
+	@git clone https://github.com/muhzii/evscript
 	@cd evscript && cargo build --release
 	@cd evscript && sudo install -Ss -o root -m 4755 target/release/evscript /usr/local/bin/evscript
-	@echo "$$caps_lock_esc_map_evscript" > ~/.local/share/caps_lock_esc_map.dyon
-	@echo "$$evscript_launcher" > ~/.local/bin/evscript_launcher.sh
-	@chmod +x ~/.local/bin/evscript_launcher.sh
-	@echo 'ACTION=="add", KERNEL=="event*", RUN+="$(shell echo ~/.local/bin/evscript_launcher.sh) %k"' | \
+	@echo "$$evdev_script" > ~/.local/share/caps_lock_esc_map.dyon
+	@echo "$$evdev_script_launcher" > ~/.local/bin/evdev_script_launcher.sh
+	@chmod +x ~/.local/bin/evdev_script_launcher.sh
+	@echo 'ACTION=="add", KERNEL=="event*", RUN+="$(shell echo ~/.local/bin/evdev_script_launcher.sh) %k"' | \
 		sudo tee /etc/udev/rules.d/00-keyboard-caps-lock-map.rules
 	@rm -rf evscript
 
