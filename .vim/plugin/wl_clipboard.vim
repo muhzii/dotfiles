@@ -1,5 +1,7 @@
 " Source: https://github.com/habamax/.vim/blob/master/plugin/wl_clipboard.vim
 
+vim9script
+
 if $XDG_SESSION_TYPE != 'wayland'
     finish
 endif
