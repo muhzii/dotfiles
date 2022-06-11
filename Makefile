@@ -37,6 +37,8 @@ pacman_pkgs_install:
 	sudo pacman -S - < ./pacman-packages
 	@sudo systemctl enable at
 	@sudo systemctl start at
+	@sudo systemctl enable docker
+	@sudo systemctl start docker
 
 datefudge_install:
 	@echo "Installing datefudge..."
