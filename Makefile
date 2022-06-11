@@ -30,7 +30,7 @@ endef
 
 all: packages_install home_install vim_plug_intall
 
-packages_install: pacman_pkgs_install datefudge_install
+packages_install: pacman_pkgs_install datefudge_install rustup_install
 
 pacman_pkgs_install:
 	@echo "Installing pacman packages..."
@@ -48,6 +48,11 @@ datefudge_install:
 
 export caps_lock_esc_map_evscript
 export evscript_launcher
+rustup_install:
+	@echo "Installing rustup..."
+	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	@rustup component add rls rust-analysis rust-src
+
 evscript_install:
 	@git clone https://github.com/myfreeweb/evscript
 	@cd evscript && cargo build --release

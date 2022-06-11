@@ -4,3 +4,4 @@ coc-json
 coc-pyright
 coc-snippets
 coc-tsserver
+coc-rls

@@ -146,6 +146,7 @@ let g:ale_linters = {
    \'typescript': ['eslint'],
    \'javascript': ['eslint'],
    \'go': ['staticcheck', 'gofmt', 'golint', 'go vet'],
+   \'rust':['cargo'],
    \}
 
 let g:ale_fixers = {
