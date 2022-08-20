@@ -1,0 +1,12 @@
+//! [events]
+//! keys = ['ESC']
+fn main() ~ evdevs, uinput {
+    should_esc := false
+    loop {
+        evts := next_events(evdevs)
+        for i {
+            evt := evts[i]
+            xcape(mut should_esc, evt, KEY_CAPSLOCK(), [KEY_ESC()])
+        }
+    }
+}

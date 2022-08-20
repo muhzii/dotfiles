@@ -2,32 +2,6 @@ define replace-with-symlink
 	@rm -f ~/$1 && ln -s $(shell pwd)/$1 ~/$1
 endef
 
-define evdev_script
-//! [events]
-//! keys = ['ESC']
-fn main() ~ evdevs, uinput {
-    should_esc := false
-    loop {
-        evts := next_events(evdevs)
-        for i {
-            evt := evts[i]
-            xcape(mut should_esc, evt, KEY_CAPSLOCK(), [KEY_ESC()])
-        }
-    }
-}
-endef
-
-define evdev_script_launcher
-#!/bin/sh
-
-evdev=$$1
-
-is_kbd=$$(ls -al /dev/input/by-path/ | grep $$evdev | grep kbd)
-if [ ! -z "$$is_kbd" ]; then
-	echo evscript -f $(shell echo ~/.local/share/caps_lock_esc_map.dyon) -d /dev/input/$$evdev | at now
-fi
-endef
-
 all: packages_install home_install vim_plug_intall
 
 packages_install: pacman_pkgs_install datefudge_install rustup_install
@@ -51,17 +25,14 @@ rustup_install:
 	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 	@rustup component add rls rust-analysis rust-src
 
-export evdev_script
-export evdev_script_launcher
 evscript_install:
 	@git clone https://github.com/muhzii/evscript
 	@cd evscript && cargo build --release
 	@cd evscript && sudo install -Ss -o root -m 4755 target/release/evscript /usr/local/bin/evscript
-	@echo "$$evdev_script" > ~/.local/share/caps_lock_esc_map.dyon
-	@echo "$$evdev_script_launcher" > ~/.local/bin/evdev_script_launcher.sh
-	@chmod +x ~/.local/bin/evdev_script_launcher.sh
-	@echo 'ACTION=="add", KERNEL=="event*", RUN+="$(shell echo ~/.local/bin/evdev_script_launcher.sh) %k"' | \
-		sudo tee /etc/udev/rules.d/00-keyboard-caps-lock-map.rules
+	@sudo cp ./scripts/caps2esc-mapper.dyon /usr/local/share
+	@sudo cp ./scripts/caps2esc-mapper.sh /usr/local/bin
+	@sudo cp ./systemd/caps2esc-mapper@.service /usr/lib/systemd/system
+	@sudo cp ./udev/00-keyboard-caps2esc-map.rules /etc/udev/rules.d
 	@rm -rf evscript
 
 home_install:

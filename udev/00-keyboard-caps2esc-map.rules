@@ -1,0 +1,1 @@
+ACTION=="add", KERNEL=="event*", TAG+="systemd", ENV{SYSTEMD_WANTS}+="caps2esc-mapper@%k.service"
