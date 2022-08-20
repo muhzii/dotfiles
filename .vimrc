@@ -202,8 +202,11 @@ function! s:show_documentation()
   endif
 endfunction
 
-" Use ctr+space to trigger completion
-inoremap <silent><expr> <c-@> coc#refresh()
+" ctrl-j/k to navigate completion items and <CR> to accept selected item.
+inoremap <silent><expr> <c-k> coc#pum#visible() ? coc#pum#prev(1) : coc#refresh()
+inoremap <silent><expr> <c-j> coc#pum#visible() ? coc#pum#next(1) : coc#refresh()
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Show references (mapping starts with the leader as not to conflict with
 " ReplaceWithRegister plugin).
