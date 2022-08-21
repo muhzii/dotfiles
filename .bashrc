@@ -99,10 +99,14 @@ alias l='ls -CF'
 
 # git aliases
 alias gs='git status'
+alias gw='git show'
+alias gl='git log'
 alias gd='git diff'
 alias gr='git restore'
 alias ga='git add'
 alias gc='git commit'
+alias gca='git commit --amend'
+
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
