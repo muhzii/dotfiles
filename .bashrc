@@ -107,6 +107,8 @@ alias ga='git add'
 alias gc='git commit'
 alias gca='git commit --amend'
 
+vim_pager_cmd="vim -nm --not-a-term -c 'set buftype=nowrite' -c '%sm/\\e.\\{-}m//g' -c 'set ft=diff' -"
+alias PRETTY_PAGER="PAGER=\"${vim_pager_cmd}\""
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
