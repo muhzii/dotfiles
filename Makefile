@@ -2,26 +2,20 @@ define replace-with-symlink
 	@rm -f ~/$1 && ln -s $(shell pwd)/$1 ~/$1
 endef
 
-all: packages_install home_install vim_plug_intall
+all: system_install user_install
 
-packages_install: pacman_pkgs_install datefudge_install rustup_install
-
-pacman_pkgs_install:
+system_install: evscript_install
 	@echo "Installing pacman packages..."
 	sudo pacman -S - < ./pacman-packages
 	@sudo systemctl enable docker
 	@sudo systemctl start docker
-
-datefudge_install:
+	@echo "Installing rustup..."
+	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	@rustup component add rls rust-analysis rust-src
 	@echo "Installing datefudge..."
 	@git clone https://github.com/vvidovic/datefudge.git
 	@cd datefudge && make && sudo make install
 	@rm -rf datefudge
-
-rustup_install:
-	@echo "Installing rustup..."
-	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-	@rustup component add rls rust-analysis rust-src
 
 evscript_install:
 	@git clone https://github.com/muhzii/evscript
@@ -32,6 +26,8 @@ evscript_install:
 	@sudo cp ./systemd/caps2esc-mapper@.service /usr/lib/systemd/system
 	@sudo cp ./udev/00-keyboard-caps2esc-map.rules /etc/udev/rules.d
 	@rm -rf evscript
+
+user_install: home_install vim_plug_install
 
 home_install:
 	@echo "Installing files in user's home directory..."
