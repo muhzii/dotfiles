@@ -136,9 +136,6 @@ let g:ale_completion_enabled = 0
 let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '⚠'
 let g:ale_fix_on_save = 1
-let g:ale_lint_on_insert_leave = 0
-let g:ale_lint_on_save = 0
-let g:ale_lint_on_text_changed = 0
 let g:ale_linters_explicit = 1
 let g:ale_javascript_eslint_executable = 'eslint_d --cache'
 
@@ -153,6 +150,30 @@ let g:ale_fixers = {
    \'javascript': ['eslint'],
    \'typescript': ['eslint'],
    \}
+
+function! DebugMsg(msg) abort
+  if !exists("g:DebugMessages")
+    let g:DebugMessages = []
+  endif
+  call add(g:DebugMessages, a:msg)
+endfunction
+
+function! PrintDebugMsgs() abort
+  if empty(get(g:, "DebugMessages", []))
+    echo "No debug messages."
+    return
+  endif
+  for ln in g:DebugMessages
+    echo "- " . ln
+  endfor
+endfunction
+
+command DebugStatus call PrintDebugMsgs()
+
+augroup CocRefreshALE
+  autocmd!
+  autocmd User ALEWantResults call CocActionAsync('diagnosticRefresh')
+augroup END
 
 "
 " git-gutter Configurations.
