@@ -33,6 +33,7 @@ set ttimeout ttimeoutlen=10  " Enforce timeout for keycodes sent by the terminal
 set splitbelow splitright  " More natural feel when opening vim splits.
 set clipboard=unnamedplus
 set termguicolors
+set hidden
 
 " Enable autoread for file changes.
 set autoread
