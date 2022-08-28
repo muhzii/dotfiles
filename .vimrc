@@ -130,6 +130,17 @@ nnoremap <silent> <C-Down> :TmuxResizeDown<CR>
 nnoremap <silent> <C-Up> :TmuxResizeUp<CR>
 nnoremap <silent> <C-Right> :TmuxResizeRight<CR>
 
+" Open current buffers.
+noremap <silent> <leader>b :Buffers<CR>
+
+" Open project files.
+noremap <silent> <leader>f :Files<CR>
+
+command! -bang -nargs=* GGrep
+  \ call fzf#vim#grep(
+  \   'git grep --line-number -- '.shellescape(<q-args>), 0,
+  \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
+
 "
 " ALE configurations.
 "
@@ -295,5 +306,7 @@ Plug 'tpope/vim-repeat'
 Plug 'vim-scripts/ReplaceWithRegister'
 
 Plug 'editorconfig/editorconfig-vim'
+
+"Plug 'vim-airline/vim-airline'
 
 call plug#end()
