@@ -109,7 +109,7 @@ let g:netrw_liststyle=3
 let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
-noremap <silent> nr :Explore<CR>
+noremap <silent> <leader>n :Explore<CR>
 
 " Set tags for vim-fugitive
 set tags^=.git/tags
