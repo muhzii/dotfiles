@@ -35,6 +35,8 @@ set clipboard=unnamedplus
 set termguicolors
 set hidden
 
+filetype plugin on
+
 " Enable autoread for file changes.
 set autoread
 autocmd FocusGained,BufEnter * checktime
@@ -308,5 +310,7 @@ Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'editorconfig/editorconfig-vim'
 
 "Plug 'vim-airline/vim-airline'
+
+Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
 
 call plug#end()
