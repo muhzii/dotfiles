@@ -1,4 +1,5 @@
 {
+    "pyright.inlayHints.enable": false,
     "suggest.noselect": false,
     "diagnostic.checkCurrentLine": true,
     "diagnostic.refreshOnInsertMode": true,
