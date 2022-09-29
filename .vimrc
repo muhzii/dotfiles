@@ -305,7 +305,7 @@ Plug 'tpope/vim-vinegar'
 
 Plug 'tpope/vim-repeat'
 
-Plug 'vim-scripts/ReplaceWithRegister'
+Plug 'muhzii/ReplaceWithRegister'
 
 Plug 'editorconfig/editorconfig-vim'
 
