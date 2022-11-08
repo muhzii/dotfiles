@@ -2,11 +2,15 @@ define replace-with-symlink
 	@rm -f ~/$1 && ln -s $(shell pwd)/$1 ~/$1
 endef
 
-all: system_install user_install
+all: system_install evscript_install user_install
 
-system_install: evscript_install
+system_install: aur_install
 	@echo "Installing pacman packages..."
-	sudo pacman -S - < ./pacman-packages
+	@if ! grep -Fxq "[multilib]" /etc/pacman.conf; then \
+		@echo "[multilib]"|sudo tee -a /etc/pacman.conf
+		@echo "Include = /etc/pacman.d/mirrorlist"|sudo tee -a /etc/pacman.conf
+	fi
+	sudo pacman -S - < ./pkg/pacman-packages
 	@sudo systemctl enable docker
 	@sudo systemctl start docker
 	@echo "Installing rustup..."
@@ -16,6 +20,16 @@ system_install: evscript_install
 	@git clone https://github.com/vvidovic/datefudge.git
 	@cd datefudge && make && sudo make install
 	@rm -rf datefudge
+
+aur_install:
+	@echo "Installing AUR packages"
+	@rm -rf repos && mkdir -p repos
+	@gpg --recv-key AFF2A1415F6A3A38
+	@gpg --recv-key 5E3C45D7B312C643
+	@while IFS= read -r line; do \
+		git clone https://aur.archlinux.org/$$line.git repos/$$line; \
+		(cd repos/$$line && yes|makepkg -sif); \
+	done < ./pkg/pacman-aur-packages
 
 evscript_install:
 	@git clone https://github.com/muhzii/evscript
