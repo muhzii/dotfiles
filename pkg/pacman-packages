@@ -25,7 +25,6 @@ kitty
 lsof
 lutris
 lzip
-gvim
 m4
 mlocate
 nano
@@ -48,7 +47,7 @@ strace
 tcpdump
 tmux
 ttc-iosevka
-ttf-nerd-fonts-symbols
+ttf-nerd-fonts-symbols-1000-em
 ttf-roboto-mono
 unrar
 unzip
@@ -67,4 +66,5 @@ go
 openssh
 ttf-dejavu
 adobe-source-code-pro-fonts
-docker
+jdk17-openjdk
+podman
