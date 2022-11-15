@@ -55,6 +55,8 @@ home_install:
 	@mkdir -p ~/.vim
 	$(call replace-with-symlink,.vim/coc-settings.json)
 	@cp -r ./.vim/colors ~/.vim/
+	@echo "Initializing KDE settings..."
+	@./scripts/kde-init
 
 vim_plug_install:
 	@echo "Installing Vim plugins.."

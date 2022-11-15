@@ -1,0 +1,74 @@
+#!/bin/bash
+
+plasma-apply-colorscheme BreezeDark
+plasma-apply-lookandfeel -a org.kde.breezedark.desktop
+
+mkdir -p ~/.local/share/wallpapers
+cp ./assets/arch-wallpaper.png ~/.local/share/wallpapers
+plasma-apply-wallpaperimage $(echo ~/.local/share/wallpapers/arch-wallpaper.png)
+
+#
+# The following settings require a reboot to be functional.
+#
+
+# Write configurations for kitty.
+kwriteconfig5 --file ~/.config/kglobalshortcutsrc --group kitty.desktop --key _k_friendly_name "kitty"
+kwriteconfig5 --file ~/.config/kglobalshortcutsrc --group kitty.desktop --key _launch "Ctrl+Alt+T,none,kitty"
+kwriteconfig5 --file ~/.config/kdeglobals --group General --key TerminalApplication "kitty"
+kwriteconfig5 --file ~/.config/kdeglobals --group General --key TerminalService "kitty.deskop"
+
+# Write keyboard configurations.
+kwriteconfig5 --file ~/.config/kcminputrc --group Keyboard --key RepeatDelay 200
+kwriteconfig5 --file ~/.config/kcminputrc --group Keyboard --key RepeatRate 60
+kwriteconfig5 --file ~/.config/kxkbrc --group Layout --key LayoutList us,ara
+kwriteconfig5 --file ~/.config/kxkbrc --group Layout --key DisplayList ,
+kwriteconfig5 --file ~/.config/kxkbrc --group Layout --key VariantList ,
+kwriteconfig5 --file ~/.config/kxkbrc --group Layout --key Options grp:alt_shift_toggle,caps:ctrl_modifier
+kwriteconfig5 --file ~/.config/kxkbrc --group Layout --key ResetOldOptions true
+kwriteconfig5 --file ~/.config/kxkbrc --group Layout --key Use true
+
+# Write timezone settings
+kwriteconfig5 --file ~/.config/ktimezonedrc --group TimeZones --key LocalZone Africa/Cairo
+kwriteconfig5 --file ~/.config/ktimezonedrc --group TimeZones --key ZoneinfoDir /usr/share/zoneinfo
+kwriteconfig5 --file ~/.config/ktimezonedrc --group TimeZones --key Zonetab /usr/share/zoneinfo/zone.tab
+
+# Change Application Launcher icon.
+mkdir -p ~/.local/share/icons
+cp ./assets/archlinux-icon.svg ~/.local/share/icons
+kwriteconfig5 --file ~/.config/plasma-org.kde.plasma.desktop-appletsrc \
+    --group Containments --group 2 --group Applets --group 3 \
+    --group Configuration --group General \
+    --key icon $(echo ~/.local/share/icons/archlinux-icon.svg)
+
+# Apply Breezemite window decoration theme
+mkdir -p ~/.local/share/aurorae/themes
+wget -q https://github.com/andreyorst/Breezemite/archive/refs/heads/master.zip
+unzip -qo master.zip -d ~/.local/share/aurorae/themes
+rm master.zip
+(cd ~/.local/share/aurorae/themes/Breezemite-master && mv Breezemite* ..; cd .. && rm -rf Breezemite-master)
+kwriteconfig5 --file ~/.config/kwinrc --group org.kde.kdecoration2 --key library org.kde.kwin.aurorae
+kwriteconfig5 --file ~/.config/kwinrc --group org.kde.kdecoration2 --key theme __aurorae__svg__Breezemite_dark
+
+kwriteconfig5 --file ~/.config/kwinrc --group org.kde.kdecoration2 --key ButtonsOnLeft M
+
+# Write configurations for Tab layout.
+kwriteconfig5 --file ~/.config/kwinrc --group TabBox --key LayoutName thumbnail_grid
+
+# Write configuration for Night mode.
+kwriteconfig5 --file ~/.config/kwinrc --group NightColor --key Active true
+kwriteconfig5 --file ~/.config/kwinrc --group NightColor --key LatitudeAuto 30.0778
+kwriteconfig5 --file ~/.config/kwinrc --group NightColor --key LongtitudeAuto 31.2852
+kwriteconfig5 --file ~/.config/kwinrc --group NightColor --key Mode Contrast
+kwriteconfig5 --file ~/.config/kwinrc --group NightColor --key NightTemperature 4000
+
+kwriteconfig5 --file ~/.config/ksplashrc --group KSplash --key Theme org.kde.oxygen
+
+# Write configuration for screen lock.
+kwriteconfig5 --file ~/.config/kscreenlockerrc --group Daemon --key Timeout 15
+cp ./assets/lockscreen.jpg ~/.local/share/wallpapers
+kwriteconfig5 --file ~/.config/kscreenlockerrc --group Greeter --group Wallpaper \
+    --group org.kde.image --group General \
+    --key Image $(echo ~/.local/share/wallpapers/lockscreen.jpg)
+kwriteconfig5 --file ~/.config/kscreenlockerrc --group Greeter --group Wallpaper \
+    --group org.kde.image --group General \
+    --key PreviewImage $(echo ~/.local/share/wallpapers/lockscreen.jpg)
