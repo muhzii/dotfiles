@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ue
 
 plasma-apply-colorscheme BreezeDark
 plasma-apply-lookandfeel -a org.kde.breezedark.desktop
@@ -32,6 +32,11 @@ kwriteconfig5 --file ~/.config/ktimezonedrc --group TimeZones --key LocalZone Af
 kwriteconfig5 --file ~/.config/ktimezonedrc --group TimeZones --key ZoneinfoDir /usr/share/zoneinfo
 kwriteconfig5 --file ~/.config/ktimezonedrc --group TimeZones --key Zonetab /usr/share/zoneinfo/zone.tab
 
+# Use application dashboard for the application launcher applet
+kwriteconfig5 --file ~/.config/plasma-org.kde.plasma.desktop-appletsrc \
+    --group Containments --group 2 --group Applets --group 3
+    --key plugin org.kde.plasma.kickdash
+
 # Change Application Launcher icon.
 mkdir -p ~/.local/share/icons
 cp ./assets/archlinux-icon.svg ~/.local/share/icons
@@ -45,9 +50,10 @@ mkdir -p ~/.local/share/aurorae/themes
 wget -q https://github.com/andreyorst/Breezemite/archive/refs/heads/master.zip
 unzip -qo master.zip -d ~/.local/share/aurorae/themes
 rm master.zip
-(cd ~/.local/share/aurorae/themes/Breezemite-master && mv Breezemite* ..; cd .. && rm -rf Breezemite-master)
+(cd ~/.local/share/aurorae/themes/Breezemite-master && rsync -a Breezemite* ..; cd .. && rm -rf Breezemite-master)
 kwriteconfig5 --file ~/.config/kwinrc --group org.kde.kdecoration2 --key library org.kde.kwin.aurorae
 kwriteconfig5 --file ~/.config/kwinrc --group org.kde.kdecoration2 --key theme __aurorae__svg__Breezemite_dark
+kwriteconfig5 --file ~/.config/auroraerc --group Breezemite_dark --key ButtonSize 2
 
 kwriteconfig5 --file ~/.config/kwinrc --group org.kde.kdecoration2 --key ButtonsOnLeft M
 
@@ -60,6 +66,12 @@ kwriteconfig5 --file ~/.config/kwinrc --group NightColor --key LatitudeAuto 30.0
 kwriteconfig5 --file ~/.config/kwinrc --group NightColor --key LongtitudeAuto 31.2852
 kwriteconfig5 --file ~/.config/kwinrc --group NightColor --key Mode Contrast
 kwriteconfig5 --file ~/.config/kwinrc --group NightColor --key NightTemperature 4000
+
+# Dim screen on Adminstrator mode
+kwriteconfig5 --file ~/.config/kwinrc --group Plugins --key kwin4_effect_dimscreenEnabled true
+
+# Set transparency for application menus.
+kwriteconfig5 --file ~/.config/breezerc --group Style --key MenuOpacity 65
 
 kwriteconfig5 --file ~/.config/ksplashrc --group KSplash --key Theme org.kde.oxygen
 

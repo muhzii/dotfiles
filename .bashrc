@@ -4,6 +4,7 @@
 
 export GOPATH="$(echo ~/go)"
 export PATH="$PATH:$(echo ~/.local/bin):$(echo ~/go/bin)"
+export PATH="$PATH:$(echo ~/.local/share/gem/ruby/3.0.0/bin)"
 
 # If not running interactively, don't do anything
 case $- in

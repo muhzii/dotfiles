@@ -1,0 +1,70 @@
+#!/bin/bash -ue
+
+if ! grep -Fxq "[multilib]" /etc/pacman.conf; then
+    echo "[multilib]"|sudo tee -a /etc/pacman.conf;
+    echo "Include = /etc/pacman.d/mirrorlist"|sudo tee -a /etc/pacman.conf;
+fi
+
+echo "Installing pacman packages.."
+sudo pacman -Syuu --noconfirm
+sudo pacman -Sy --noconfirm - < ./manifests/arch-packages
+
+sudo systemctl enable iwd
+
+sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 $(whoami)
+
+sudo sbctl create-keys
+sudo sbctl enroll-keys
+sudo sbctl sign-all -g
+
+echo "Installing rustup.."
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+source "$HOME/.cargo/env" && rustup component add rls rust-analysis rust-src
+
+echo "Installing datefudge.."
+tmpdir=$(mktemp -d)
+git clone https://github.com/vvidovic/datefudge.git $tmpdir
+(cd $tmpdir && make && sudo make install)
+rm -rf $tmpdir
+
+echo "Installing AUR packages.."
+tmpdir=$(mktemp -d)
+git clone https://aur.archlinux.org/yay.git $tmpdir
+(cd $tmpdir && makepkg -sif --noconfirm)
+rm -rf $tmpdir
+
+gpg --recv-key AFF2A1415F6A3A38
+gpg --recv-key 5E3C45D7B312C643
+
+sudo pacman -Rn sddm || true
+yay -S --useask --noconfirm --norebuild --noredownload - < ./manifests/aur-packages
+
+if sudo dmidecode|grep "Surface Pro" >/dev/null; then
+    ./scripts/system-init/surface-pro
+    sudo bash -c 'cat > /etc/sddm.conf <<EOF
+[General]
+InputMethod=qtvirtualkeyboard
+
+[Theme]
+Current=breeze
+EOF'
+else
+    sudo bash -c 'cat > /etc/sddm.conf <<EOF
+[General]
+InputMethod=
+
+[Theme]
+Current=breeze
+EOF'
+fi
+
+echo "Installing evscript.."
+tmpdir=$(mktemp -d)
+git clone https://github.com/muhzii/evscript $tmpdir
+(cd $tmpdir && source "$HOME/.cargo/env" && cargo build --release)
+(cd $tmpdir && sudo install -Ss -o root -m 4755 target/release/evscript /usr/local/bin/evscript)
+sudo cp ./scripts/caps2esc-mapper.dyon /usr/local/share
+sudo cp ./scripts/caps2esc-mapper.sh /usr/local/bin
+sudo cp ./systemd/caps2esc-mapper@.service /usr/lib/systemd/system
+sudo cp ./udev/00-keyboard-caps2esc-map.rules /etc/udev/rules.d
+rm -rf $tmpdir

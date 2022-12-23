@@ -1,0 +1,54 @@
+#!/bin/bash -ue
+
+sudo pacman -Syu --noconfirm
+sudo pacman -Sy --noconfirm dkms make meson cli11 fmt gsl libinih spdlog \
+    qt5-virtualkeyboard maliit-keyboard
+
+# Hacky workaround for maliit virtual keyboard, see: https://bugreports.qt.io/browse/QTBUG-109573
+sudo sed -i 's/onPressed/onReleased/g' /usr/lib/maliit/keyboard2/qml/keys/SymbolShiftKey.qml
+
+# NOTE: The following need to be installed from source for now.
+
+function install_ithc () {
+    tmpdir=$(mktemp -d)
+    git clone https://github.com/quo/ithc-linux.git $tmpdir
+    sudo make -C $tmpdir dkms-install
+    rm -rf $tmpdir
+}
+
+function install_ipts () {
+    tmpdir=$(mktemp -d)
+    git clone https://github.com/linux-surface/intel-precise-touch.git $tmpdir
+    sudo make -C $tmpdir dkms-install
+    rm -rf $tmpdir
+
+    git clone https://github.com/linux-surface/iptsd.git $tmpdir
+    (cd $tmpdir && meson build && sudo ninja -C build install)
+    rm -rf $tmpdir
+
+    sudo systemctl enable iptsd.service
+}
+
+yay -S --useask --norebuild --noredownload --noconfirm hidrd-git
+if ! dkms status|grep "^ipts"; then
+    install_ipts
+fi
+
+if ! dkms status|grep "^ithc"; then
+    install_ithc
+fi
+if ! grep -q ithc /etc/mkinitcpio.conf; then
+    sudo sed -i 's/^MODULES=(/MODULES=(ithc /g' /etc/mkinitcpio.conf
+fi
+
+yay -S --useask --norebuild --noredownload --noconfirm osk-sdl
+if ! grep -q "osk-sdl" /etc/mkinitcpio.conf; then
+    sudo sed -i 's/^\(HOOKS=.*\)filesystems\(.*\)$/\1osk-sdl filesystems\2/g' \
+        /etc/mkinitcpio.conf
+fi
+
+# Workaround for ITHC driver.
+echo "$(cat /proc/cmdline) intremap=nosid"|sudo tee /etc/kernel/cmdline
+
+sudo mkinitcpio -P
+sudo sbctl sign-all -g

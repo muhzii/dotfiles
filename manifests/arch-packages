@@ -1,3 +1,12 @@
+iwd
+yarn
+rsync
+pkgconf
+automake
+autoconf
+vim
+nano
+curl
 aspell
 aspell-en
 bear
@@ -23,7 +32,6 @@ jdk8-openjdk
 jq
 kitty
 lsof
-lutris
 lzip
 m4
 mlocate
@@ -55,7 +63,6 @@ usbutils
 virt-manager
 virt-viewer
 wget
-wine-staging
 wireshark-qt
 xdotool
 zip
@@ -69,3 +76,4 @@ adobe-source-code-pro-fonts
 jdk17-openjdk
 podman
 sbctl
+gsfonts
