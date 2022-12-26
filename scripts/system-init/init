@@ -9,7 +9,14 @@ echo "Installing pacman packages.."
 sudo pacman -Syuu --noconfirm
 sudo pacman -Sy --noconfirm - < ./manifests/arch-packages
 
+sudo bash -c "cat >> /etc/hosts <<EOF
+127.0.0.1 localhost
+127.0.0.1 $(cat /proc/sys/kernel/hostname)
+EOF"
+
 sudo systemctl enable iwd
+
+echo "MOZ_ENABLE_WAYLAND=1"|sudo tee -a /etc/environment
 
 sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 $(whoami)
 
