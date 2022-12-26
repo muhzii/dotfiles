@@ -7,7 +7,7 @@ fi
 
 echo "Installing pacman packages.."
 sudo pacman -Syuu --noconfirm
-sudo pacman -Sy --noconfirm - < ./manifests/arch-packages
+sudo pacman -Sy --noconfirm - < ./manifest/pacman.txt
 
 sudo bash -c "cat >> /etc/hosts <<EOF
 127.0.0.1 localhost
@@ -44,12 +44,12 @@ gpg --recv-key AFF2A1415F6A3A38
 gpg --recv-key 5E3C45D7B312C643
 
 sudo pacman -Rn sddm || true
-yay -S --useask --noconfirm --norebuild --noredownload - < ./manifests/aur-packages
+yay -S --useask --noconfirm --norebuild --noredownload - < ./manifest/pacman-aur.txt
 
 sudo sed -i 's/\$CHROME_USER_FLAGS/$CHROME_USER_FLAGS --password-store=gnome/' /usr/bin/google-chrome-stable
 
 if sudo dmidecode|grep "Surface Pro" >/dev/null; then
-    ./scripts/system-init/surface-pro
+    ./scripts/system/surface-pro
     sudo bash -c 'cat > /etc/sddm.conf <<EOF
 [General]
 InputMethod=qtvirtualkeyboard

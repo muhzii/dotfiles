@@ -1,7 +1,11 @@
 #!/bin/bash -ue
 
 function replace_with_symlink () {
-    rm -f ~/$1 && ln -s $(pwd)/$1 ~/$1
+    dst=$2
+    if [ "$dst" == "" ]; then
+        dst=~/$1
+    fi
+    rm -f $dst && ln -s $(pwd)/$1 $dst
 }
 
 echo "Installing files in user home directory.."
@@ -10,24 +14,24 @@ replace_with_symlink .vimrc
 replace_with_symlink .tmux.conf
 
 mkdir -p ~/.local/bin
-replace_with_symlink .local/bin/tat
+replace_with_symlink bin/tat ~/.local/bin/tat
 
 mkdir -p ~/.config/kitty
-replace_with_symlink .config/kitty/kitty.conf
+replace_with_symlink kitty.conf ~/.config/kitty/kitty.conf
 
 mkdir -p ~/.vim
-replace_with_symlink .vim/coc-settings.json
+replace_with_symlink vim/coc-settings.json ~/.vim/coc-settings.json
 
-cp -r ./.vim/colors ~/.vim/
+cp -r ./vim/colors ~/.vim/
 
 echo "Installing KDE settings..."
-./scripts/user-init/kde-settings
+./scripts/user/kde-settings
 
 echo "Installing Vim plugins.."
-cp -r ./.vim/plugin ~/.vim
+cp -r ./vim/plugin ~/.vim
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 vim +PlugInstall +qa
 vim +PlugUpdate +qa
-vim "+CocInstall $(cat ./manifests/vim-coc-exts | tr "\n" " " | head --bytes -1)"
+vim "+CocInstall $(cat ./manifest/coc-extensions.txt | tr "\n" " " | head --bytes -1)"
 

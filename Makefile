@@ -1,5 +1,5 @@
 install:
-	./scripts/system-init/init
-	./scripts/user-init/init
+	./scripts/system/init
+	./scripts/user/init
 
 .PHONY: install
