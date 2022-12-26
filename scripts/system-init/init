@@ -39,6 +39,8 @@ gpg --recv-key 5E3C45D7B312C643
 sudo pacman -Rn sddm || true
 yay -S --useask --noconfirm --norebuild --noredownload - < ./manifests/aur-packages
 
+sudo sed -i 's/\$CHROME_USER_FLAGS/$CHROME_USER_FLAGS --password-store=gnome/' /usr/bin/google-chrome-stable
+
 if sudo dmidecode|grep "Surface Pro" >/dev/null; then
     ./scripts/system-init/surface-pro
     sudo bash -c 'cat > /etc/sddm.conf <<EOF
