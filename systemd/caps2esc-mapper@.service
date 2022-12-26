@@ -4,7 +4,7 @@ Description="Worker instance to map CapsLock to ESC"
 [Service]
 Type=simple
 Restart=on-failure
-ExecStart=/usr/local/bin/caps2esc_mapper.sh %i
+ExecStart=/usr/local/bin/caps2esc-mapper.sh %i
 
 [Install]
 WantedBy=multi-user.target

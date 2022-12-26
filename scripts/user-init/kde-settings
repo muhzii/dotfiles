@@ -34,7 +34,7 @@ kwriteconfig5 --file ~/.config/ktimezonedrc --group TimeZones --key Zonetab /usr
 
 # Use application dashboard for the application launcher applet
 kwriteconfig5 --file ~/.config/plasma-org.kde.plasma.desktop-appletsrc \
-    --group Containments --group 2 --group Applets --group 3
+    --group Containments --group 2 --group Applets --group 3 \
     --key plugin org.kde.plasma.kickdash
 
 # Change Application Launcher icon.

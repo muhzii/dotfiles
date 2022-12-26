@@ -1,8 +1,8 @@
 #!/bin/bash -ue
 
 if ! grep -Fxq "[multilib]" /etc/pacman.conf; then
-    echo "[multilib]"|sudo tee -a /etc/pacman.conf;
-    echo "Include = /etc/pacman.d/mirrorlist"|sudo tee -a /etc/pacman.conf;
+    echo "[multilib]"|sudo tee -a /etc/pacman.conf
+    echo "Include = /etc/pacman.d/mirrorlist"|sudo tee -a /etc/pacman.conf
 fi
 
 echo "Installing pacman packages.."
