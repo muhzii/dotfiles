@@ -46,6 +46,11 @@ if ! grep -q "osk-sdl" /etc/mkinitcpio.conf; then
     sudo sed -i 's/^\(HOOKS=.*\)filesystems\(.*\)$/\1osk-sdl filesystems\2/g' \
         /etc/mkinitcpio.conf
 fi
+if ! grep -q "/usr/bin/stty" /etc/mkinitcpio.conf; then
+    echo "BINARIES=(/usr/bin/stty)"|sudo tee -a /etc/mkinitcpio.conf
+fi
+wget https://raw.githubusercontent.com/muhzii/osk-sdl_arch/main/osk-sdl-hooks
+sudo mv osk-sdl-hooks /usr/lib/initcpio/hooks/osk-sdl
 
 # Workaround for ITHC driver.
 echo "$(cat /proc/cmdline) intremap=nosid"|sudo tee /etc/kernel/cmdline
