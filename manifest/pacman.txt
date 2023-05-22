@@ -6,7 +6,7 @@ rsync
 pkgconf
 automake
 autoconf
-vim
+gvim
 nano
 curl
 aspell
