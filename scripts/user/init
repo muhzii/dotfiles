@@ -1,4 +1,4 @@
-#!/bin/bash -ue
+#!/bin/bash -e
 
 function replace_with_symlink () {
     dst=$2
