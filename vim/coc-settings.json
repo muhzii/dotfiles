@@ -1,5 +1,6 @@
 {
-    "pyright.inlayHints.enable": false,
+    "pyright.inlayHints.variableTypes": false,
+    "pyright.inlayHints.functionReturnTypes": false,
     "suggest.noselect": false,
     "diagnostic.checkCurrentLine": true,
     "diagnostic.refreshOnInsertMode": true,
