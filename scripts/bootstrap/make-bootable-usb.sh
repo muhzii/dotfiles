@@ -1,4 +1,4 @@
-#!/bin/bash -ue
+#!/bin/bash -xue
 
 if [[ $# -ne 2 ]]; then
     echo "usage: ${0} <iso_path> <device>" && exit 1
@@ -7,8 +7,8 @@ fi
 iso_path=$1
 dev=$2
 
-ls $iso_path
-ls $dev
+ls $iso_path >/dev/null
+ls $dev >/dev/null
 
 if ! echo "$(basename $iso_path)"|grep archlinux-|grep .iso >/dev/null; then
     echo "Invalid file name for ArchLinux ISO image." && exit 1
@@ -48,7 +48,7 @@ if ! sudo parted $dev print|grep "Partition Table:"|grep gpt >/dev/null; then
     esac
 fi
 
-esp=$(sudo parted $dev unit MB print|grep "esp")
+esp=$(sudo parted $dev unit MB print|grep esp || true)
 if [ "$esp" != "" ]; then
     esp_ptnum=$(echo $esp|awk '{print $1}')
     sudo parted $dev rm $esp_ptnum
@@ -59,7 +59,7 @@ if [ "$free_start" == "" ]; then
     echo "No free space available on disk." && exit 1
 fi
 free_end=$((${free_start}+${iso_sz}+128))
-sudo parted $dev -s mkpart primary fat32 ${free_start}MiB ${free_end}MiB
+sudo parted $dev -s mkpart primary fat32 ${free_start}MiB ${free_end}MiB || true
 
 ptnum=$(sudo parted $dev unit MiB print|sed 's/\.00//g'|grep ${free_start}MiB)
 ptnum=$(echo $ptnum|awk '{print $1 " " $2}'|grep ${free_start}MiB|awk '{print $1}')

@@ -13,6 +13,8 @@ replace_with_symlink .bashrc
 replace_with_symlink .vimrc
 replace_with_symlink .tmux.conf
 
+echo "pinentry-program /usr/bin/pinentry-qt" > ~/.gnupg/gpg-agent.conf
+
 mkdir -p ~/.local/bin
 replace_with_symlink bin/tat ~/.local/bin/tat
 

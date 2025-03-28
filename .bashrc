@@ -3,6 +3,7 @@
 # for examples
 
 export GOPATH="$(echo ~/go)"
+export PATH=$PATH:/usr/local/go/bin
 export PATH="$PATH:$(echo ~/.local/bin):$(echo ~/go/bin)"
 export PATH="$PATH:$(echo ~/.local/share/gem/ruby/3.0.0/bin)"
 
@@ -98,6 +99,8 @@ alias tmux="TERM=xterm-256color tmux"
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
+
+alias hs='history'
 
 # git aliases
 alias gs='git status'
