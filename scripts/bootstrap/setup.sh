@@ -26,7 +26,7 @@ read -p "Enter username: " username
 arch-chroot /mnt useradd -m $username || true
 arch-chroot /mnt passwd $username
 
-usermod -aG wheel,audio,video,storage $username || true
+arch-chroot /mnt usermod -aG wheel,audio,video,storage $username || true
 
 user_sudo_allow="$username ALL=(ALL) ALL"
 if ! cat /mnt/etc/sudoers|grep "$user_sudo_allow" &>/dev/null; then
