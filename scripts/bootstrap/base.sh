@@ -7,8 +7,8 @@ if lscpu|grep Vendor|grep Intel >/dev/null; then
     ucode_name="intel-ucode"
 fi
 
-pacstrap /mnt base linux-firmware xorg plasma curl lvm2 plasma-wayland-session \
-    kde-applications $ucode_name vim fakeroot make git
+pacstrap /mnt base linux-firmware xorg plasma curl lvm2 \
+    kde-applications $ucode_name vim fakeroot make git sbctl
 
 # Enable services
 arch-chroot /mnt systemctl enable sddm.service
