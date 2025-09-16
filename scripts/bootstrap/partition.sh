@@ -9,20 +9,22 @@ function num_pts() {
     fi
 }
 
-function cleanup() {
-    # Cleanup mounts, logical partitions, LUKS partition..
-    umount -l /mnt/home &>/dev/null || true
-    umount -l /mnt &>/dev/null || true
-    swapoff /dev/main_vol_grp/swap &>/dev/null || true
-    lvm vgremove -y main_vol_grp &>/dev/null || true
-    pvremove /dev/mapper/cryptlvm &>/dev/null || true
-    cryptsetup close cryptlvm &>/dev/null || true
-}
-
 read -p "Specify disk name to be partitioned: " dev
 if ! fdisk -l|grep "^Disk /dev/.*"|grep "$dev:" >/dev/null; then
     echo "Invalid disk device name" && exit 1
 fi
+
+read -p "Specify drive name identifier: " drive_id
+
+function cleanup() {
+    # Cleanup mounts, logical partitions, LUKS partition..
+    umount -l /mnt/home &>/dev/null || true
+    umount -l /mnt &>/dev/null || true
+    swapoff /dev/vg_${drive_id}/swap &>/dev/null || true
+    lvm vgremove -y vg_${drive_id} &>/dev/null || true
+    pvremove /dev/mapper/${drive_id}_cryptlvm &>/dev/null || true
+    cryptsetup close ${drive_id}_cryptlvm &>/dev/null || true
+}
 
 parted $dev print free
 read -p "Remove all existing partitions?" yn
@@ -42,7 +44,7 @@ esac
 
 if ! parted $dev print|grep "EFI system"; then
     # TODO: support EFI/ boot partition resizing
-    parted $dev mkpart primary fat32 1MiB 1025MiB &>/dev/null
+    parted $dev mkpart primary fat32 1MiB 2048MiB &>/dev/null
     n=$(num_pts)
     parted $dev set $n esp on &>/dev/null
     parted $dev name $n '"EFI system partition"' &>/dev/null
@@ -105,28 +107,27 @@ fi
 echo "Setting up LUKS on selected partition.."
 crypt_dev=${dev}p${install_pt_num}
 cryptsetup luksFormat ${crypt_dev}
-cryptsetup open ${crypt_dev} cryptlvm
+cryptsetup open ${crypt_dev} ${drive_id}_cryptlvm
 
 echo "Setting up LVM on LUKS partition..."
-pvcreate /dev/mapper/cryptlvm
-vgcreate main_vol_grp /dev/mapper/cryptlvm
+pvcreate /dev/mapper/${drive_id}_cryptlvm
+vgcreate vg_${drive_id} /dev/mapper/${drive_id}_cryptlvm
 
 swap_sz=$(free -h|grep Mem:|awk '{print $2}'|rev|cut -c3-|rev)
 swap_sz=$(echo $swap_sz|awk '{print sqrt($1)}'|xargs -I {} printf "%.0f\n" {})
-lvcreate -L ${swap_sz}G main_vol_grp -n swap
+lvcreate -L ${swap_sz}G vg_${drive_id} -n swap
 
 # TODO: impose limits
 read -p "Specify Root partition Size (in G): " root_sz
-lvcreate -L ${root_sz}G main_vol_grp -n root
-lvcreate -l 100%FREE main_vol_grp -n home
+lvcreate -L ${root_sz}G vg_${drive_id} -n root
+lvcreate -l 100%FREE vg_${drive_id} -n home
 
-mkfs.ext4 /dev/main_vol_grp/root
-mkfs.ext4 /dev/main_vol_grp/home
-mkswap /dev/main_vol_grp/swap
+mkfs.ext4 /dev/vg_${drive_id}/root
+mkfs.ext4 /dev/vg_${drive_id}/home
+mkswap /dev/vg_${drive_id}/swap
 mkfs.fat -F32 ${dev}p1
 
-mount /dev/main_vol_grp/root /mnt
-mount --mkdir /dev/main_vol_grp/home /mnt/home
+mount /dev/vg_${drive_id}/root /mnt
+mount --mkdir /dev/vg_${drive_id}/home /mnt/home
 mount --mkdir ${dev}p1 /mnt/boot
-swapon /dev/main_vol_grp/swap
-
+swapon /dev/vg_${drive_id}/swap

@@ -1,11 +1,7 @@
 #!/bin/bash -ue
 
-plasma-apply-colorscheme BreezeDark
-plasma-apply-lookandfeel -a org.kde.breezedark.desktop
-
-mkdir -p ~/.local/share/wallpapers
-cp ./assets/arch-wallpaper.png ~/.local/share/wallpapers
-plasma-apply-wallpaperimage $(echo ~/.local/share/wallpapers/arch-wallpaper.png)
+plasma-apply-colorscheme SweetAmbarBlue
+plasma-apply-desktoptheme Sweet-Ambar-Blue
 
 #
 # The following settings require a reboot to be functional.
@@ -28,14 +24,9 @@ kwriteconfig5 --file ~/.config/kxkbrc --group Layout --key ResetOldOptions true
 kwriteconfig5 --file ~/.config/kxkbrc --group Layout --key Use true
 
 # Write timezone settings
-kwriteconfig5 --file ~/.config/ktimezonedrc --group TimeZones --key LocalZone Africa/Cairo
+kwriteconfig5 --file ~/.config/ktimezonedrc --group TimeZones --key LocalZone Europe/Amsterdam
 kwriteconfig5 --file ~/.config/ktimezonedrc --group TimeZones --key ZoneinfoDir /usr/share/zoneinfo
 kwriteconfig5 --file ~/.config/ktimezonedrc --group TimeZones --key Zonetab /usr/share/zoneinfo/zone.tab
-
-# Use application dashboard for the application launcher applet
-kwriteconfig5 --file ~/.config/plasma-org.kde.plasma.desktop-appletsrc \
-    --group Containments --group 2 --group Applets --group 3 \
-    --key plugin org.kde.plasma.kickdash
 
 # Change Application Launcher icon.
 mkdir -p ~/.local/share/icons
@@ -44,16 +35,6 @@ kwriteconfig5 --file ~/.config/plasma-org.kde.plasma.desktop-appletsrc \
     --group Containments --group 2 --group Applets --group 3 \
     --group Configuration --group General \
     --key icon $(echo ~/.local/share/icons/archlinux-icon.svg)
-
-# Apply Breezemite window decoration theme
-mkdir -p ~/.local/share/aurorae/themes
-wget -q https://github.com/andreyorst/Breezemite/archive/refs/heads/master.zip
-unzip -qo master.zip -d ~/.local/share/aurorae/themes
-rm master.zip
-(cd ~/.local/share/aurorae/themes/Breezemite-master && rsync -a Breezemite* ..; cd .. && rm -rf Breezemite-master)
-kwriteconfig5 --file ~/.config/kwinrc --group org.kde.kdecoration2 --key library org.kde.kwin.aurorae
-kwriteconfig5 --file ~/.config/kwinrc --group org.kde.kdecoration2 --key theme __aurorae__svg__Breezemite_dark
-kwriteconfig5 --file ~/.config/auroraerc --group Breezemite_dark --key ButtonSize 2
 
 kwriteconfig5 --file ~/.config/kwinrc --group org.kde.kdecoration2 --key ButtonsOnLeft M
 
@@ -74,13 +55,3 @@ kwriteconfig5 --file ~/.config/kwinrc --group Plugins --key kwin4_effect_dimscre
 kwriteconfig5 --file ~/.config/breezerc --group Style --key MenuOpacity 65
 
 kwriteconfig5 --file ~/.config/ksplashrc --group KSplash --key Theme org.kde.oxygen
-
-# Write configuration for screen lock.
-kwriteconfig5 --file ~/.config/kscreenlockerrc --group Daemon --key Timeout 15
-cp ./assets/lockscreen.jpg ~/.local/share/wallpapers
-kwriteconfig5 --file ~/.config/kscreenlockerrc --group Greeter --group Wallpaper \
-    --group org.kde.image --group General \
-    --key Image $(echo ~/.local/share/wallpapers/lockscreen.jpg)
-kwriteconfig5 --file ~/.config/kscreenlockerrc --group Greeter --group Wallpaper \
-    --group org.kde.image --group General \
-    --key PreviewImage $(echo ~/.local/share/wallpapers/lockscreen.jpg)
