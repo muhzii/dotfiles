@@ -6,6 +6,7 @@ if ! grep -Fxq "[multilib]" /etc/pacman.conf; then
 fi
 
 echo "Installing pacman packages.."
+sudo pacman -Rn --noconfirm vim
 sudo pacman -Syuu --noconfirm
 sudo pacman -Sy --noconfirm - < ./manifest/pacman.txt
 
@@ -21,12 +22,12 @@ echo "MOZ_ENABLE_WAYLAND=1"|sudo tee -a /etc/environment
 sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 $(whoami)
 
 sudo sbctl create-keys
-sudo sbctl enroll-keys
+sudo sbctl enroll-keys --microsoft
 sudo sbctl sign-all -g
 
 echo "Installing rustup.."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-source "$HOME/.cargo/env" && rustup component add rls rust-analysis rust-src
+source "$HOME/.cargo/env" && rustup component add rust-analyzer rust-analysis rust-src
 
 echo "Installing datefudge.."
 tmpdir=$(mktemp -d)
@@ -43,29 +44,9 @@ rm -rf $tmpdir
 gpg --recv-key AFF2A1415F6A3A38
 gpg --recv-key 5E3C45D7B312C643
 
-sudo pacman -Rn sddm || true
 yay -S --useask --noconfirm --norebuild --noredownload - < ./manifest/pacman-aur.txt
 
 sudo sed -i 's/\$CHROME_USER_FLAGS/$CHROME_USER_FLAGS --password-store=gnome/' /usr/bin/google-chrome-stable
-
-if sudo dmidecode|grep "Surface Pro" >/dev/null; then
-    ./scripts/system/surface-pro
-    sudo bash -c 'cat > /etc/sddm.conf <<EOF
-[General]
-InputMethod=qtvirtualkeyboard
-
-[Theme]
-Current=breeze
-EOF'
-else
-    sudo bash -c 'cat > /etc/sddm.conf <<EOF
-[General]
-InputMethod=
-
-[Theme]
-Current=breeze
-EOF'
-fi
 
 echo "Installing evscript.."
 tmpdir=$(mktemp -d)

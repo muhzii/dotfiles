@@ -57,7 +57,6 @@ strace
 tcpdump
 tmux
 ttc-iosevka
-ttf-nerd-fonts-symbols-1000-em
 ttf-roboto-mono
 unrar
 unzip
@@ -75,7 +74,8 @@ go
 openssh
 ttf-dejavu
 adobe-source-code-pro-fonts
-jdk17-openjdk
+jdk21-openjdk
 podman
 sbctl
 gsfonts
+debugedit

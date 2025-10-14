@@ -1,5 +1,6 @@
 google-chrome
 spotify
-expressvpn
 powerstat
-sddm-git
+brave-bin
+plasma5-themes-sweet-full-git
+plasma6-themes-layan-git

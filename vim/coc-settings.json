@@ -1,20 +1,38 @@
 {
     "pyright.inlayHints.variableTypes": false,
     "pyright.inlayHints.functionReturnTypes": false,
-    "suggest.noselect": false,
     "diagnostic.checkCurrentLine": true,
     "diagnostic.refreshOnInsertMode": true,
-    "coc.preferences.formatOnSaveFiletypes": [
-        "javascript",
-        "html",
-        "json",
-        "css",
-        "scss",
-        "go",
-        "python",
-        "c",
-        "cpp"
-    ],
+    "[typescript]": {
+        "coc.preferences.formatOnSave": true
+    },
+    "[javascript]": {
+        "coc.preferences.formatOnSave": true
+    },
+    "[html]": {
+        "coc.preferences.formatOnSave": true
+    },
+    "[json]": {
+        "coc.preferences.formatOnSave": true
+    },
+    "[css]": {
+        "coc.preferences.formatOnSave": true
+    },
+    "[scss]": {
+        "coc.preferences.formatOnSave": true
+    },
+    "[go]": {
+        "coc.preferences.formatOnSave": true
+    },
+    "[python]": {
+        "coc.preferences.formatOnSave": true
+    },
+    "[c]": {
+        "coc.preferences.formatOnSave": true
+    },
+    "[cpp]": {
+        "coc.preferences.formatOnSave": true
+    },
     "coc.preferences.formatOnType": true,
     "go.trace.server": "verbose",
     "go.goplsOptions": {
@@ -22,6 +40,7 @@
     },
     "diagnostic.displayByAle": true,
     "python.formatting.provider": "autopep8",
+    "pyright.inlayHints.parameterTypes": false,
     "pyright.trace.server": "verbose",
     "languageserver": {
         "bash": {

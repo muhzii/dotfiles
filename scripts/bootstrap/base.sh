@@ -8,7 +8,7 @@ if lscpu|grep Vendor|grep Intel >/dev/null; then
 fi
 
 pacstrap /mnt base linux-firmware xorg plasma curl lvm2 \
-    kde-applications $ucode_name vim fakeroot make git sbctl mkinitcpio
+    kde-applications $ucode_name vim fakeroot make git sbctl mkinitcpio sudo
 
 # Enable services
 arch-chroot /mnt systemctl enable sddm.service
@@ -28,5 +28,5 @@ EOF
     arch-chroot /mnt pacman -Syu --noconfirm
     arch-chroot /mnt pacman -Sy --noconfirm linux-surface linux-surface-headers
 else
-    arch-chroot /mnt pacman -Sy --nconfirm linux linux-headers
+    pacstrap /mnt linux linux-headers
 fi

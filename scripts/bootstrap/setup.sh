@@ -92,46 +92,34 @@ echo "Generating EFI bundle..."
 
 pacman -Sy --noconfirm sbctl
 
-crypt_dev=$(cryptsetup status cryptlvm|grep device|awk '{print $2}')
+luks_dev_name=$(lsblk -lno NAME,TYPE|awk '$2=="crypt"{print $1}')
+lvm_vg_name=$(lsblk -lno NAME,TYPE|awk '$2=="lvm"{print $1}'|head -1|sed 's/-.*//')
+crypt_dev=$(cryptsetup status ${luks_dev_name}|grep device|awk '{print $2}')
 crypt_uuid=$(blkid|grep $crypt_dev|awk '{print $2}'|tr -d '"')
-echo "BOOT_IMAGE=/vmlinuz-linux rw loglevel=3 quiet cryptdevice=$crypt_uuid:cryptlvm root=/dev/mapper/main_vol_grp-root" \
+echo "BOOT_IMAGE=/vmlinuz-linux rw loglevel=3 quiet cryptdevice=${crypt_uuid}:${luks_dev_name} root=/dev/mapper/${lvm_vg_name}-root" \
     > /etc/kernel/cmdline
 cp /etc/kernel/cmdline /mnt/etc/kernel/cmdline
-
-# Dirty hack we resort to as sbctl cannot be run in arch-chroot env.
-if [ $(head -c 11 /usr/bin/lsblk|tr -d '\0') != "#!/bin/bash" ]; then
-    mv /usr/bin/lsblk /usr/bin/lsblk-real
-    echo "#!/bin/bash" > /usr/bin/lsblk
-    echo '/usr/bin/lsblk-real $@|sed "s/\/mnt//g"' >> /usr/bin/lsblk
-    chmod +x /usr/bin/lsblk
-fi
 
 ucode_name="amd-ucode"
 if [ $is_intel -eq 1 ]; then
     ucode_name="intel-ucode"
 fi
 
-mkdir -p /mnt/var/tmp && mount --bind /mnt/var/tmp /var/tmp
 mkdir -p /mnt/boot/EFI/ArchLinux
 
 if [ $is_surface_pro -eq 1 ]; then
-    sbctl bundle -s -i /mnt/boot/$ucode_name.img \
-        -l /mnt/usr/share/systemd/bootctl/splash-arch.bmp \
-        -k /mnt/boot/vmlinuz-linux-surface \
-        -f /mnt/boot/initramfs-linux-surface.img \
-        /mnt/boot/EFI/ArchLinux/arch-linux.efi
+    arch-chroot /mnt sbctl bundle -s -i /boot/$ucode_name.img \
+        -l /usr/share/systemd/bootctl/splash-arch.bmp \
+        -k /boot/vmlinuz-linux-surface \
+        -f /boot/initramfs-linux-surface.img \
+        /boot/EFI/ArchLinux/arch-linux.efi
 else
-    sbctl bundle -s -i /mnt/boot/$ucode_name.img \
-        -l /mnt/usr/share/systemd/bootctl/splash-arch.bmp \
-        -k /mnt/boot/vmlinuz-linux \
-        -f /mnt/boot/initramfs-linux.img \
-        /mnt/boot/EFI/ArchLinux/arch-linux.efi
+    arch-chroot /mnt sbctl bundle -s -i /boot/$ucode_name.img \
+        -l /usr/share/systemd/bootctl/splash-arch.bmp \
+        -k /boot/vmlinuz-linux \
+        -f /boot/initramfs-linux.img \
+        boot/EFI/ArchLinux/arch-linux.efi
 fi
-
-umount /var/tmp
-sed -i 's/\/mnt//g' /usr/share/secureboot/bundles.db
-mkdir -p /mnt/user/share/secureboot
-mv /usr/share/secureboot/bundles.db /mnt/usr/share/secureboot
 
 while true; do
     if efibootmgr -v|grep ArchLinux >/dev/null; then
