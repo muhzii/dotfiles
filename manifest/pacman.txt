@@ -79,3 +79,4 @@ podman
 sbctl
 gsfonts
 debugedit
+neovim

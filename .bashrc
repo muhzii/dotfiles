@@ -62,7 +62,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[0;32m\]\u@\h\[\033[00m\]:\[\033[0;34m\]\w\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[38;5;208m\]\u@\h\[\033[00m\]:\[\033[38;5;178m\]\w\[\033[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -112,7 +112,7 @@ alias ga='git add'
 alias gc='git commit'
 alias gca='git commit --amend'
 
-vim_pager_cmd="vim -nm --not-a-term -c 'set buftype=nowrite' -c '%sm/\\e.\\{-}m//g' -c 'set ft=diff' -"
+vim_pager_cmd="nvim -nm --not-a-term -c 'set buftype=nowrite' -c '%sm/\\e.\\{-}m//g' -c 'set ft=diff' -"
 alias PRETTY_PAGER="PAGER=\"${vim_pager_cmd}\""
 
 # Alias definitions.
@@ -136,7 +136,7 @@ if ! shopt -oq posix; then
 fi
 
 # Make vim the default editor.
-export EDITOR=vim
+export EDITOR=nvim
 export VISUAL="$EDITOR"
 
 # Use vim mode on the command line.
@@ -150,7 +150,41 @@ ensure_tmux_is_running() {
 ensure_tmux_is_running
 
 # File colors read by ls.
-export LS_COLORS='rs=0:di=0;34:ln=01;36:mh=00:pi=40;33:so=0;35:do=0;35:bd=41;33;0:cd=33;0:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=0;32:*.tar=0;31:*.tgz=0;31:*.arc=0;31:*.arj=0;31:*.taz=0;31:*.lha=0;31:*.lz4=0;31:*.lzh=0;31:*.lzma=0;31:*.tlz=0;31:*.txz=0;31:*.tzo=0;31:*.t7z=0;31:*.zip=0;31:*.z=0;31:*.dz=0;31:*.gz=0;31:*.lrz=0;31:*.lz=0;31:*.lzo=0;31:*.xz=0;31:*.zst=0;31:*.tzst=0;31:*.bz2=0;31:*.bz=0;31:*.tbz=0;31:*.tbz2=0;31:*.tz=0;31:*.deb=0;31:*.rpm=0;31:*.jar=0;31:*.war=0;31:*.ear=0;31:*.sar=0;31:*.rar=0;31:*.alz=0;31:*.ace=0;31:*.zoo=0;31:*.cpio=0;31:*.7z=0;31:*.rz=0;31:*.cab=0;31:*.wim=0;31:*.swm=0;31:*.dwm=0;31:*.esd=0;31:*.jpg=0;35:*.jpeg=0;35:*.mjpg=0;35:*.mjpeg=0;35:*.gif=0;35:*.bmp=0;35:*.pbm=0;35:*.pgm=0;35:*.ppm=0;35:*.tga=0;35:*.xbm=0;35:*.xpm=0;35:*.tif=0;35:*.tiff=0;35:*.png=0;35:*.svg=0;35:*.svgz=00;35:*.mng=0;35:*.pcx=0;35:*.mov=0;35:*.mpg=0;35:*.mpeg=0;35:*.m2v=0;35:*.mkv=0;35:*.webm=0;35:*.webp=0;35:*.ogm=0;35:*.mp4=0;35:*.m4v=0;35:*.mp4v=0;35:*.vob=0;35:*.qt=0;35:*.nuv=0;35:*.wmv=0;35:*.asf=0;35:*.rm=0;35:*.rmvb=0;35:*.flc=0;35:*.avi=0;35:*.fli=0;35:*.flv=0;35:*.gl=0;35:*.dl=0;35:*.xcf=0;35:*.xwd=0;35:*.yuv=0;35:*.cgm=0;35:*.emf=0;35:*.ogv=0;35:*.ogx=0;35:*.aac=0;36:*.au=0;36:*.flac=0;36:*.m4a=0;36:*.mid=0;36:*.midi=0;36:*.mka=0;36:*.mp3=0;36:*.mpc=0;36:*.ogg=0;36:*.ra=0;36:*.wav=0;36:*.oga=0;36:*.opus=0;36:*.spx=0;36:*.xspf=0;36:'
+LS_COLORS_LIST=(
+  "rs=0"
+  "di=38;5;214"
+  "ln=38;5;87"
+  "ex=38;5;40"
+  "bd=38;5;226"
+  "cd=38;5;226"
+  "su=38;5;117;41"
+  "sg=0;30;43"
+  "tw=38;5;214"
+  "ow=38;5;214"
+  "st=37;44"
+  "pi=38;5;226"
+  "so=0;35"
+  "*.tar=0;31"
+  "*.tgz=0;31"
+  "*.zip=0;31"
+  "*.gz=0;31"
+  "*.bz2=0;31"
+  "*.xz=0;31"
+  "*.jpg=38;5;220"
+  "*.jpeg=38;5;220"
+  "*.png=38;5;220"
+  "*.gif=38;5;220"
+  "*.bmp=38;5;220"
+  "*.svg=38;5;220"
+  "*.mp3=0;32"
+  "*.wav=0;32"
+  "*.flac=0;32"
+  "*.mp4=0;32"
+  "*.mkv=0;32"
+  "*.mov=0;32"
+  "*.avi=0;32"
+)
+export LS_COLORS=$(IFS=: ; echo "${LS_COLORS_LIST[*]}")
 
 function swap()
 {
@@ -164,3 +198,19 @@ function swap()
 if test -n "$KITTY_INSTALLATION_DIR" -a -e "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; then source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; fi
 # END_KITTY_SHELL_INTEGRATION
 . "$HOME/.cargo/env"
+
+sshti() {
+    if [ $# -lt 1 ]; then
+        echo "Usage: sshti <host>"
+        return 1
+    fi
+
+    local HOST="$1"
+    local TERM_NAME="${TERM:-xterm-kitty}"
+
+    # Send local terminfo to remote ~/.terminfo
+    infocmp -a "$TERM_NAME" 2>/dev/null | ssh "$HOST" "mkdir -p ~/.terminfo && tic -x -o ~/.terminfo /dev/stdin"
+}
+
+alias vi='nvim'
+alias vim='nvim'

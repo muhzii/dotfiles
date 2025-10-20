@@ -24,7 +24,11 @@ replace_with_symlink kitty.conf ~/.config/kitty/kitty.conf
 mkdir -p ~/.vim
 replace_with_symlink vim/coc-settings.json ~/.vim/coc-settings.json
 
+mkdir -p ~/.config/nvim
+replace_with_symlink nvim/init.lua ~/.config/nvim/init.lua
+
 cp -r ./vim/colors ~/.vim/
+cp -r ./vim/colors ~/.config/nvim
 
 echo "Installing KDE settings..."
 ./scripts/user/kde-settings
@@ -37,3 +41,5 @@ vim +PlugInstall +qa
 vim +PlugUpdate +qa
 vim "+CocInstall $(cat ./manifest/coc-extensions.txt | tr "\n" " " | head --bytes -1)"
 
+echo "Installing NeoVim plugins"
+cp -r ./nvim/plugin ~/.config/nvim
