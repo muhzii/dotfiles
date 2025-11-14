@@ -214,3 +214,7 @@ sshti() {
 
 alias vi='nvim'
 alias vim='nvim'
+
+if [ -f "$HOME/.secrets/apikeys" ]; then
+    source "$HOME/.secrets/apikeys"
+fi

@@ -46,6 +46,7 @@ set.showmatch = true
 vim.o.mat = 2
 set.colorcolumn = "81"
 set.background = "dark"
+vim.o.mouse = ""
 
 -----------------------------------------------------------
 -- Autocommands
@@ -229,6 +230,15 @@ cmp.setup({
                 fallback()
             end
         end, { "i", "s" }),
+        ["<Esc>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.abort()
+            end
+            if luasnip.expand_or_jumpable() then
+                luasnip.unlink_current()
+            end
+            fallback()
+        end, { "i", "s" }),
     }),
     sources = cmp.config.sources({
         { name = "nvim_lsp" },
@@ -239,6 +249,7 @@ cmp.setup({
 })
 
 -- LSP on_attach function
+vim.keymap.del("n", "gri") -- remove default mapping in _default.lua
 local on_attach = function(client, bufnr)
     local buf_map = function(mode, lhs, rhs)
         vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, { noremap = true, silent = true })
@@ -246,6 +257,7 @@ local on_attach = function(client, bufnr)
     buf_map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
     buf_map("n", "<leader>gr", "<cmd>lua vim.lsp.buf.references()<CR>")
     buf_map("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+    buf_map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
     buf_map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
     buf_map("n", "<leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>")
 

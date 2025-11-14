@@ -40,17 +40,21 @@ if unnamed_plus then
 end
 
 -- Explicit mappings for + and * registers
-vim.keymap.set("n", "+p", function() WLPaste("p") end, opts)
-vim.keymap.set("n", "+P", function() WLPaste("P") end, opts)
-vim.keymap.set("n", "*p", function() WLPaste("p") end, opts)
-vim.keymap.set("n", "*P", function() WLPaste("P") end, opts)
-vim.keymap.set("x", "+p", function() WLPaste("p") end, opts)
-vim.keymap.set("x", "+P", function() WLPaste("P") end, opts)
-vim.keymap.set("x", "*p", function() WLPaste("p") end, opts)
-vim.keymap.set("x", "*P", function() WLPaste("P") end, opts)
+vim.keymap.set("n", '"+p', function() WLPaste("p") end, opts)
+vim.keymap.set("n", '"+P', function() WLPaste("P") end, opts)
+vim.keymap.set("n", '"*p', function() WLPaste("p") end, opts)
+vim.keymap.set("n", '"*P', function() WLPaste("P") end, opts)
+vim.keymap.set("x", '"+p', function() WLPaste("p") end, opts)
+vim.keymap.set("x", '"+P', function() WLPaste("P") end, opts)
+vim.keymap.set("x", '"*p', function() WLPaste("p") end, opts)
+vim.keymap.set("x", '"*P', function() WLPaste("P") end, opts)
 
 -- Insert-mode mappings
-vim.keymap.set("i", "<C-r>+", function() WLPaste("p"); vim.cmd("normal! `]") end, opts)
-vim.keymap.set("i", "<C-r>*", function() WLPaste("p"); vim.cmd("normal! `]") end, opts)
+vim.keymap.set("i", "<C-r>+", function()
+    WLPaste("p"); vim.cmd("normal! `]")
+end, opts)
+vim.keymap.set("i", "<C-r>*", function()
+    WLPaste("p"); vim.cmd("normal! `]")
+end, opts)
 
 vim.api.nvim_set_keymap('v', '<C-c>', '"+y', { noremap = true, silent = true })
